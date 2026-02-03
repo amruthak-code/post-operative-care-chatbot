@@ -1,0 +1,42 @@
+
+---
+
+## How It Works
+
+1. A patient logs in through the web interface.
+2. The backend:
+   - Authenticates the user using JWT
+   - Retrieves only that patient’s medical data from Redis
+3. Relevant medical context is retrieved using **RAG**.
+4. The LLM generates a response under strict safety rules.
+5. The system returns:
+   - A patient-facing explanation
+   - A triage level (1–3)
+   - An alert flag if escalation is required
+6. Emergency-level cases trigger notification logic.
+
+---
+
+## Triage Levels
+
+| Level | Meaning | Action |
+|------|--------|--------|
+| 1 | Routine | Self-care guidance |
+| 2 | Caution | Recommend scheduling a clinician visit |
+| 3 | Emergency | Trigger emergency contact alert |
+
+---
+
+## Running with Docker (Recommended)
+
+### Prerequisites
+- Docker
+- Docker Compose
+
+### Environment Variables
+
+Create a `.env` file:
+
+```env
+LLM_API_KEY=your_api_key_here
+REDIS_URL=redis://redis:6379
